@@ -10,6 +10,7 @@ Simple React + TypeScript project built with Vite. Use the steps below to get it
 ```bash
 npm install
 ```
+- Go to https://rawg.io/apidocs, create an account and get your api key
 - Copy `.env.example` to `.env` and set `VITE_RAWG_API_KEY` with your RAWG.io API key.
 
 ## Run the dev server
