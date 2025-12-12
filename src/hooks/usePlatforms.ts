@@ -11,11 +11,11 @@ export interface Platform {
 const apiClient = new APIClient<Platform>("platforms/lists/parents");
 
 const usePlatforms = () =>
-  useQuery<{ count: number; results: Platform[] }>({
+  useQuery({
     queryKey: ["platforms"],
     queryFn: () => apiClient.getAll({}),
     staleTime: 24 * 60 * 60 * 1000, //24h
-    initialData: { count: platforms.length, results: platforms },
+    initialData: platforms,
   });
 
 export default usePlatforms;
