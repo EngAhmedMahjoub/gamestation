@@ -7,11 +7,11 @@ interface Props {
 
 const GenreBadgeList = ({ genres }: Props) => {
   return (
-    <Wrap marginBottom={3} spacing={1}>
+    <Wrap marginBlock={3} spacing={2}>
       {genres.map((g) => (
         <Badge
           borderRadius={3}
-          colorScheme="orange"
+          colorScheme="purple"
           key={g.id}
           padding={0.5}
           size="xs"

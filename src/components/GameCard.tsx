@@ -46,11 +46,11 @@ const GameCard = ({ game }: Props) => {
             platforms={game.parent_platforms?.map((p) => p.platform) || []}
           />
         </HStack>
-        <GenreBadgeList genres={game.genres} />
         <Heading fontSize="2xl">
           <Link to={"/games/" + game.slug}>{game.name}</Link>
           <Emoji rating={game.rating_top} />
         </Heading>
+        <GenreBadgeList genres={game.genres} />
         <ReleaseDate date={game.released} />
       </CardBody>
     </Card>
