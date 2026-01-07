@@ -1,4 +1,4 @@
-import { Card, CardBody, Heading, HStack, Image } from "@chakra-ui/react";
+import { Box, Card, CardBody, Heading, HStack, Image } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import Game from "../entities/Game";
 import getCroppedImageUrl from "../services/image-url";
@@ -12,8 +12,24 @@ interface Props {
 
 const GameCard = ({ game }: Props) => {
   return (
-    <Card>
-      <Image src={getCroppedImageUrl(game.background_image)} />
+    <Card _hover={{ shadow: "lg" }}>
+      <Box position="relative">
+        <Image
+          _hover={{
+            transform: "scale(1.05)",
+            transition: "transform 0.3s ease",
+          }}
+          src={getCroppedImageUrl(game.background_image)}
+        />
+        <Box
+          position="absolute"
+          inset={0}
+          bg="blackAlpha.400"
+          opacity={0}
+          _hover={{ opacity: 1 }}
+          transition="opacity 0.3s ease"
+        />
+      </Box>
       <CardBody>
         <HStack justifyContent="space-between" marginBottom={3}>
           <PlatformIconList
