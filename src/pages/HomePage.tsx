@@ -4,6 +4,7 @@ import GameHeading from "../components/GameHeading";
 import GenreList from "../components/GenreList";
 import PlatformSelector from "../components/PlatformSelector";
 import SortSelector from "../components/SortSelector";
+import ActiveFilters from "../components/ActiveFilters";
 
 const HomePage = () => {
   return (
@@ -32,6 +33,7 @@ const HomePage = () => {
               </Box>
               <SortSelector />
             </Flex>
+            <ActiveFilters />
           </Box>
           <GameGrid />
         </GridItem>
