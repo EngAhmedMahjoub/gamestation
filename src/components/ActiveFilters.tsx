@@ -1,4 +1,4 @@
-import { HStack, Tag } from "@chakra-ui/react";
+import { Button, HStack, Tag } from "@chakra-ui/react";
 import useGameQueryStore from "../store";
 import useGenres from "../hooks/useGenres";
 import usePlatforms from "../hooks/usePlatforms";
@@ -29,6 +29,8 @@ const ActiveFilters = () => {
     (order) => order.value === sortOrder
   );
 
+  const clearAllFilters = useGameQueryStore((s) => s.clearAllFilters);
+
   return (
     <HStack spacing={2} marginBottom={5}>
       {genreName && (
@@ -50,6 +52,19 @@ const ActiveFilters = () => {
         <Tag colorScheme="orange" fontWeight="bold">
           {gameQuery.searchText}
         </Tag>
+      )}
+      {(genreName ||
+        platformName ||
+        gameQuery.sortOrder ||
+        gameQuery.searchText) && (
+        <Button
+          onClick={clearAllFilters}
+          size="xs"
+          variant="ghost"
+          _hover={{ textDecoration: "underline" }}
+        >
+          Clear All
+        </Button>
       )}
     </HStack>
   );
