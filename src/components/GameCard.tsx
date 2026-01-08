@@ -13,7 +13,7 @@ import getCroppedImageUrl from "../services/image-url";
 import CriticScore from "./CriticScore";
 import Emoji from "./Emoji";
 import PlatformIconList from "./PlatformIconList";
-import GenreBadgeList from "./GenreBadgeList";
+import GameGenreList from "./GameGenreList";
 import ReleaseDate from "./ReleaseDate";
 
 interface Props {
@@ -50,7 +50,7 @@ const GameCard = ({ game }: Props) => {
           <Link to={"/games/" + game.slug}>{game.name}</Link>
           <Emoji rating={game.rating_top} />
         </Heading>
-        <GenreBadgeList genres={game.genres} />
+        <GameGenreList genres={game.genres} />
         <ReleaseDate date={game.released} />
       </CardBody>
     </Card>
