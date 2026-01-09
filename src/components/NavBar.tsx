@@ -1,4 +1,4 @@
-import { HStack, Image } from "@chakra-ui/react";
+import { Box, HStack, Image } from "@chakra-ui/react";
 import logo from "../assets/logo.png";
 import ColorModeSwitch from "./ColorModeSwitch";
 import SearchInput from "./SearchInput";
@@ -18,7 +18,9 @@ const NavBar = () => {
       <Link to="/">
         <Image src={logo} boxSize="60px" objectFit="cover" />
       </Link>
-      <SearchInput />
+      <Box flex="1">
+        <SearchInput />
+      </Box>
       <ColorModeSwitch />
     </HStack>
   );
