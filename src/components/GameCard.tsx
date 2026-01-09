@@ -1,36 +1,61 @@
-import {
-  Badge,
-  Box,
-  Card,
-  CardBody,
-  Heading,
-  HStack,
-  Image,
-} from "@chakra-ui/react";
+import { useState } from "react";
+import { Box, Card, CardBody, Heading, HStack, Image } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import Game from "../entities/Game";
 import getCroppedImageUrl from "../services/image-url";
-import CriticScore from "./CriticScore";
 import Emoji from "./Emoji";
 import PlatformIconList from "./PlatformIconList";
-import GameGenreList from "./GameGenreList";
-import ReleaseDate from "./ReleaseDate";
+import GameTrailer from "./GameTrailer";
+import ScreenshotCarousel from "./ScreenshotCarousel";
+import GameHoverInfo from "./GameHoverInfo";
+import useTrailers from "../hooks/useTrailers";
+import useScreenshots from "../hooks/useScreenshots";
 
 interface Props {
   game: Game;
 }
 
 const GameCard = ({ game }: Props) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Fetch trailers and screenshots
+  const { data: trailersData } = useTrailers(game.id);
+  const { data: screenshotsData } = useScreenshots(game.id);
+
+  // Determine what to show
+  const hasTrailer = trailersData?.results && trailersData.results.length > 0;
+  const hasScreenshots =
+    screenshotsData?.results && screenshotsData.results.length > 0;
+
   return (
-    <Card _hover={{ shadow: "lg" }}>
-      <Box position="relative">
-        <Image
-          _hover={{
-            transform: "scale(1.05)",
-            transition: "transform 0.3s ease",
-          }}
-          src={getCroppedImageUrl(game.background_image)}
-        />
+    <Card
+      _hover={{ shadow: "lg" }}
+      onPointerEnter={() => setIsHovered(true)}
+      onPointerLeave={() => setIsHovered(false)}
+    >
+      {/* Image Container */}
+      <Box position="relative" height="200px" overflow="hidden" bg="black">
+        {/* Show trailer if hovering and has trailer */}
+        {isHovered && hasTrailer && (
+          <GameTrailer gameId={game.id} fillContainer />
+        )}
+
+        {/* Show screenshot carousel if hovering, no trailer but has screenshots */}
+        {isHovered && !hasTrailer && hasScreenshots && (
+          <ScreenshotCarousel gameId={game.id} />
+        )}
+
+        {/* Show game image if not hovering, or if hovering but no trailer/screenshots */}
+        {(!isHovered || (!hasTrailer && !hasScreenshots)) && (
+          <Image
+            src={getCroppedImageUrl(game.background_image)}
+            height="100%"
+            width="100%"
+            objectFit="cover"
+          />
+        )}
+
+        {/* Overlay - always present */}
         <Box
           position="absolute"
           inset={0}
@@ -40,6 +65,8 @@ const GameCard = ({ game }: Props) => {
           transition="opacity 0.3s ease"
         />
       </Box>
+
+      {/* Card Body */}
       <CardBody>
         <HStack justifyContent="space-between" marginBottom={3}>
           <PlatformIconList
@@ -50,8 +77,9 @@ const GameCard = ({ game }: Props) => {
           <Link to={"/games/" + game.slug}>{game.name}</Link>
           <Emoji rating={game.rating_top} />
         </Heading>
-        <GameGenreList genres={game.genres} />
-        <ReleaseDate date={game.released} />
+
+        {/* Hover Info - genres and release date appear here */}
+        {isHovered && <GameHoverInfo game={game} />}
       </CardBody>
     </Card>
   );
