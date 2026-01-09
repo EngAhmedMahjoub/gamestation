@@ -11,6 +11,7 @@ import GameAttributes from "../components/GameAttributes";
 import GameTrailer from "../components/GameTrailer";
 import useGame from "../hooks/useGame";
 import GameScreenshots from "../components/GameScreenshots";
+import GameBreadcrumb from "../components/GameBreadcrumb";
 
 const GameDetailPage = () => {
   const { slug } = useParams();
@@ -23,15 +24,14 @@ const GameDetailPage = () => {
   return (
     <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
       <GridItem>
+        <GameBreadcrumb gameName={game.name} />
         <Heading>{game.name}</Heading>
         <ExpandableText>{game.description_raw}</ExpandableText>
       </GridItem>
       <GridItem>
-        <VStack spacing={5} align="stretch">
-          <GameAttributes game={game} />
-          <GameTrailer gameId={game.id} />
-          <GameScreenshots gameId={game.id} />
-        </VStack>
+        <GameAttributes game={game} />
+        <GameTrailer gameId={game.id} showControls={true} />
+        <GameScreenshots gameId={game.id} />
       </GridItem>
     </SimpleGrid>
   );

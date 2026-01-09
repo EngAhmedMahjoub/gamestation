@@ -1,13 +1,39 @@
-import { Box, Flex, Grid, GridItem, Show } from "@chakra-ui/react";
+import { Box, Button, Flex, Grid, GridItem, Show } from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import GameGrid from "../components/GameGrid";
 import GameHeading from "../components/GameHeading";
 import GenreList from "../components/GenreList";
 import PlatformSelector from "../components/PlatformSelector";
 import SortSelector from "../components/SortSelector";
+import ActiveFilters from "../components/ActiveFilters";
+import {
+  useDisclosure,
+  Drawer,
+  DrawerContent,
+  DrawerCloseButton,
+  Hide,
+} from "@chakra-ui/react";
 
 const HomePage = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <div>
+      {/* Hamburger button - mobile only */}
+      <Hide above="lg">
+        <Button onClick={onOpen} margin={2} variant="outline">
+          <HamburgerIcon />
+        </Button>
+      </Hide>
+
+      {/* Drawer - mobile only */}
+      <Drawer isOpen={isOpen} onClose={onClose} placement="left">
+        <DrawerContent>
+          <DrawerCloseButton />
+          <GenreList />
+        </DrawerContent>
+      </Drawer>
+
+      {/* Main Grid Layout */}
       <Grid
         templateAreas={{
           base: `"main"`,
@@ -32,6 +58,7 @@ const HomePage = () => {
               </Box>
               <SortSelector />
             </Flex>
+            <ActiveFilters />
           </Box>
           <GameGrid />
         </GridItem>
