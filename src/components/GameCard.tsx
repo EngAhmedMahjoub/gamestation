@@ -18,9 +18,9 @@ interface Props {
 const GameCard = ({ game }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Fetch trailers and screenshots
-  const { data: trailersData } = useTrailers(game.id);
-  const { data: screenshotsData } = useScreenshots(game.id);
+  // Fetch trailers and screenshots only when hovered
+  const { data: trailersData } = useTrailers(game.id, isHovered);
+  const { data: screenshotsData } = useScreenshots(game.id, isHovered);
 
   // Determine what to show
   const hasTrailer = trailersData?.results && trailersData.results.length > 0;
