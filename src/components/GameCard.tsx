@@ -1,5 +1,13 @@
-import { useState } from "react";
-import { Box, Card, CardBody, Heading, HStack, Image } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import {
+  Box,
+  Card,
+  CardBody,
+  Heading,
+  HStack,
+  Image,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import Game from "../entities/Game";
 import getCroppedImageUrl from "../services/image-url";
@@ -18,7 +26,19 @@ interface Props {
 const GameCard = ({ game }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Fetch trailers and screenshots only when hovered
+  // Detect if we're on mobile - true for base and sm breakpoints (mobile), false for md and up (desktop)
+  const isMobileView = useBreakpointValue({ base: true, sm: true, md: false });
+
+  // On mount, set initial hover state based on device type
+  useEffect(() => {
+    if (isMobileView === true) {
+      setIsHovered(true);
+    } else if (isMobileView === false) {
+      setIsHovered(false);
+    }
+  }, [isMobileView]);
+
+  // Fetch trailers and screenshots only when hovered (or by default on mobile)
   const { data: trailersData } = useTrailers(game.id, isHovered);
   const { data: screenshotsData } = useScreenshots(game.id, isHovered);
 
@@ -30,8 +50,8 @@ const GameCard = ({ game }: Props) => {
   return (
     <Card
       _hover={{ shadow: "lg" }}
-      onPointerEnter={() => setIsHovered(true)}
-      onPointerLeave={() => setIsHovered(false)}
+      onPointerEnter={() => !isMobileView && setIsHovered(true)}
+      onPointerLeave={() => !isMobileView && setIsHovered(false)}
     >
       {/* Image Container */}
       <Box position="relative" height="200px" overflow="hidden" bg="black">
