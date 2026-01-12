@@ -28,7 +28,8 @@ const GameCard = ({ game }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
 
   // Get feature flags from LaunchDarkly
-  const { showTrailer, showScreenshots } = useLaunchDarklyFlags();
+  const { showTrailer, showScreenshots, showGameDetails } =
+    useLaunchDarklyFlags();
 
   // Detect if we're on mobile - true for base and sm breakpoints (mobile), false for md and up (desktop)
   const isMobileView = useBreakpointValue({ base: true, sm: true, md: false });
@@ -110,7 +111,7 @@ const GameCard = ({ game }: Props) => {
         </Heading>
 
         {/* Hover Info - genres and release date appear here */}
-        {isHovered && <GameHoverInfo game={game} />}
+        {isHovered && showGameDetails && <GameHoverInfo game={game} />}
       </CardBody>
     </Card>
   );

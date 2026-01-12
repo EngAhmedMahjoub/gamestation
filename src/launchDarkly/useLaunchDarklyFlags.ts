@@ -7,5 +7,6 @@ export const useLaunchDarklyFlags = () => {
   return {
     showScreenshots: (flags.showScreenshots as boolean) || false,
     showTrailer: (flags.showTrailer as boolean) || false,
+    showGameDetails: (flags.showGameDetails as boolean) || false,
   };
 };
