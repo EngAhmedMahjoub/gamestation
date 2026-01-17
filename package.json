@@ -14,6 +14,7 @@
     "@emotion/react": "^11.14.0",
     "@tanstack/react-query": "4.28",
     "@tanstack/react-query-devtools": "4.28",
+    "@vercel/analytics": "^1.6.1",
     "axios": "^1.13.2",
     "launchdarkly-react-client-sdk": "^3.9.0",
     "ms": "^2.1.3",
