@@ -2,6 +2,7 @@ import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Analytics } from "@vercel/analytics/react";
 import "./index.css";
 import theme from "./theme";
 import { RouterProvider } from "react-router-dom";
@@ -17,6 +18,7 @@ const App = () => (
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
+        <Analytics />
       </QueryClientProvider>
     </ChakraProvider>
   </React.StrictMode>
