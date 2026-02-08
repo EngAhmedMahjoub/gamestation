@@ -18,7 +18,6 @@ import ScreenshotCarousel from "./ScreenshotCarousel";
 import GameHoverInfo from "./GameHoverInfo";
 import useTrailers from "../hooks/useTrailers";
 import useScreenshots from "../hooks/useScreenshots";
-import { useLaunchDarklyFlags } from "../launchDarkly/useLaunchDarklyFlags";
 
 interface Props {
   game: Game;
@@ -26,10 +25,6 @@ interface Props {
 
 const GameCard = ({ game }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
-
-  // Get feature flags from LaunchDarkly
-  const { showTrailer, showScreenshots, showGameDetails } =
-    useLaunchDarklyFlags();
 
   // Detect if we're on mobile - true for base and sm breakpoints (mobile), false for md and up (desktop)
   const isMobileView = useBreakpointValue({ base: true, sm: true, md: false });
@@ -44,20 +39,13 @@ const GameCard = ({ game }: Props) => {
   }, [isMobileView]);
 
   // Fetch trailers and screenshots only when hovered (or by default on mobile)
-  // Only fetch if the feature flags are enabled
-  const { data: trailersData } = useTrailers(game.id, isHovered && showTrailer);
-  const { data: screenshotsData } = useScreenshots(
-    game.id,
-    isHovered && showScreenshots
-  );
+  const { data: trailersData } = useTrailers(game.id, isHovered);
+  const { data: screenshotsData } = useScreenshots(game.id, isHovered);
 
   // Determine what to show
-  const hasTrailer =
-    showTrailer && trailersData?.results && trailersData.results.length > 0;
+  const hasTrailer = trailersData?.results && trailersData.results.length > 0;
   const hasScreenshots =
-    showScreenshots &&
-    screenshotsData?.results &&
-    screenshotsData.results.length > 0;
+    screenshotsData?.results && screenshotsData.results.length > 0;
 
   return (
     <Card
@@ -111,7 +99,7 @@ const GameCard = ({ game }: Props) => {
         </Heading>
 
         {/* Hover Info - genres and release date appear here */}
-        {isHovered && showGameDetails && <GameHoverInfo game={game} />}
+        {isHovered && <GameHoverInfo game={game} />}
       </CardBody>
     </Card>
   );
