@@ -27,7 +27,10 @@ const HomePage = () => {
 
       {/* Drawer - mobile only */}
       <Drawer isOpen={isOpen} onClose={onClose} placement="left">
-        <DrawerContent>
+        <DrawerContent
+          padding="1"
+          maxW={{ base: "40vw", sm: "70vw", md: "320px" }}
+        >
           <DrawerCloseButton />
           <GenreList />
         </DrawerContent>
