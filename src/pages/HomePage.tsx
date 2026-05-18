@@ -29,7 +29,7 @@ const HomePage = () => {
       <Drawer isOpen={isOpen} onClose={onClose} placement="left">
         <DrawerContent
           padding="1"
-          maxW={{ base: "40vw", sm: "70vw", md: "320px" }}
+          maxW={{ base: "40vw", sm: "40vw", md: "320px" }}
         >
           <DrawerCloseButton />
           <GenreList />
